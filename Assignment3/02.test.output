@@ -1,0 +1,261 @@
+Op = E, val = 1
+Max = 1
+Heap
+0: 0
+1: 1
+No heap property violations found.
+
+Op = E, val = 2
+Max = 2
+Heap
+0: 0
+1: 2
+2: 1
+No heap property violations found.
+
+Op = E, val = 3
+Max = 3
+Heap
+0: 0
+1: 3
+2: 1
+3: 2
+No heap property violations found.
+
+Op = E, val = 4
+Max = 4
+Heap
+0: 0
+1: 4
+2: 3
+3: 2
+4: 1
+No heap property violations found.
+
+Op = E, val = 17
+Max = 17
+Heap
+0: 0
+1: 17
+2: 4
+3: 2
+4: 1
+5: 3
+No heap property violations found.
+
+Op = E, val = 18
+Max = 18
+Heap
+0: 0
+1: 18
+2: 4
+3: 17
+4: 1
+5: 3
+6: 2
+No heap property violations found.
+
+Op = E, val = 12
+Max = 18
+Heap
+0: 0
+1: 18
+2: 4
+3: 17
+4: 1
+5: 3
+6: 2
+7: 12
+No heap property violations found.
+
+Op = E, val = 13
+Max = 18
+Heap
+0: 0
+1: 18
+2: 13
+3: 17
+4: 4
+5: 3
+6: 2
+7: 12
+8: 1
+No heap property violations found.
+
+Op = E, val = 16
+Max = 18
+Heap
+0: 0
+1: 18
+2: 16
+3: 17
+4: 13
+5: 3
+6: 2
+7: 12
+8: 1
+9: 4
+No heap property violations found.
+
+Op = E, val = 21
+Max = 21
+Heap
+0: 0
+1: 21
+2: 18
+3: 17
+4: 13
+5: 16
+6: 2
+7: 12
+8: 1
+9: 4
+10: 3
+No heap property violations found.
+
+Op = D, val = 0
+Heap
+0: 0
+No heap property violations found.
+
+Op = D, val = 3
+Heap
+0: 0
+No heap property violations found.
+
+Op = E, val = 97
+Max = 97
+Heap
+0: 0
+1: 97
+No heap property violations found.
+
+Op = E, val = 61
+Max = 97
+Heap
+0: 0
+1: 97
+2: 61
+No heap property violations found.
+
+Op = E, val = 201
+Max = 201
+Heap
+0: 0
+1: 201
+2: 61
+3: 97
+No heap property violations found.
+
+Op = E, val = 17
+Max = 201
+Heap
+0: 0
+1: 201
+2: 61
+3: 97
+4: 17
+No heap property violations found.
+
+Op = E, val = 22
+Max = 201
+Heap
+0: 0
+1: 201
+2: 61
+3: 97
+4: 17
+5: 22
+No heap property violations found.
+
+Op = E, val = 10
+Max = 201
+Heap
+0: 0
+1: 201
+2: 61
+3: 97
+4: 17
+5: 22
+6: 10
+No heap property violations found.
+
+Op = D, val = 6
+Heap
+0: 0
+No heap property violations found.
+
+Op = E, val = 26
+Max = 26
+Heap
+0: 0
+1: 26
+No heap property violations found.
+
+Op = E, val = 20
+Max = 26
+Heap
+0: 0
+1: 26
+2: 20
+No heap property violations found.
+
+Op = E, val = 97
+Max = 97
+Heap
+0: 0
+1: 97
+2: 20
+3: 26
+No heap property violations found.
+
+Op = E, val = 651
+Max = 651
+Heap
+0: 0
+1: 651
+2: 97
+3: 26
+4: 20
+No heap property violations found.
+
+Op = E, val = 761
+Max = 761
+Heap
+0: 0
+1: 761
+2: 651
+3: 26
+4: 20
+5: 97
+No heap property violations found.
+
+Op = E, val = 305
+Max = 761
+Heap
+0: 0
+1: 761
+2: 651
+3: 305
+4: 20
+5: 97
+6: 26
+No heap property violations found.
+
+Op = E, val = 207
+Max = 761
+Heap
+0: 0
+1: 761
+2: 651
+3: 305
+4: 20
+5: 97
+6: 26
+7: 207
+No heap property violations found.
+
+Op = D, val = 0
+Heap
+0: 0
+No heap property violations found.
