@@ -179,31 +179,26 @@ private:
         //-------------------
     }
 
-    void heap_property_down(uint32_t index)
+    void heap_property_down(Comparable item)
     {
         //----- MY CODE -----
-        Comparable tmp = std::move(heap[index]);
-        uint32_t child;
+        uint32_t left = item * 2;
+        uint32_t right = item * 2 + 1;
+        uint32_t largest = item;
 
-        while (index <= heap_ptr)
+        if (left < heap_ptr && heap[left] > heap[largest])
         {
-            child = 2 * index;
-            if (child + 1 <= heap_ptr && heap[child + 1] > heap[child])
-            {
-                ++child;
-            }
-            if (child <= heap_ptr && heap[child] > tmp)
-            {
-                // Check child within bounds before swap
-                heap[index] = std::move(heap[child]);
-                index = child;
-            }
-            else
-            {
-                break;
-            }
+            largest = left;
         }
-        heap[index] = std::move(tmp);
+        if (right < heap_ptr && heap[right] > heap[largest])
+        {
+            largest = right;
+        }
+        if (largest != item)
+        {
+            swap(heap[item], heap[largest]);
+            heap_property_down(largest);
+        }
     }
 
     //-------------------
