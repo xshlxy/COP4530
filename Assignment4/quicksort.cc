@@ -18,47 +18,30 @@ public:
 
     void insert(const Comparable &x)
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        quicksort_insert(x);
     }
 
     void print()
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        quicksort_print();
     }
 
     void reserve(uint32_t size)
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        quicksort_reserve(size);
     }
 
     uint32_t quantity()
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        return quicksort_quantity();
     }
 
     void sort()
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        if (next > 0)
+        {
+            quicksort_sort(0, next - 1);
+        }
     }
 
 private:
@@ -67,57 +50,53 @@ private:
     void quicksort_insert(const Comparable &x)
     {
         // MY CODE
+        auto it = q.begin();
+        while (it != q.end() && *it < x)
+        {
+            ++it;
+        }
+        q.insert(it, x);
+        ++next;
     }
 
     void quicksort_print()
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        std::cout << "List";
+        for (uint32_t i = 0; i < next; ++i)
+        {
+            std::cout << "\n"i << ": " << q[i];
+        }
     }
 
     void quicksort_reserve(uint32_t size)
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        q.reserve(size + 1);
     }
 
     uint32_t quicksort_quantity()
     {
-        /*
-
-          YOUR CODE GOES HERE
-
-         */
+        return next;
     }
 
     void quicksort_sort(uint32_t start, uint32_t end)
     {
-        /*
+        if (start >= end)
+            return; // Base case 1: If there is only one element
 
-          YOUR CODE GOES HERE
+        if (end - start == 1)
+        { // Base case 2: if the elements contained are two
+            if (q[start] > q[end])
+            {
+                swap(q[start], q[end]);
+            }
+            return;
+        }
+        // Recursive case: If there are three or more elements then
+        // Call the partition function and recursively quicksort left and right subarrays.
 
-         */
-        uint32_t i = start, j = end;
-        uint32_t tmp;
-        uint32_t arr[];
-
-        // printf("quickSort(left = %d, right = %d, pivot = %d)\n",left,right,
-        // pivot);
-
-        /* partition */
-
-        /* recursion */
-
-        if (left < j)
-            quickSort(left, j, arr);
-        if (i < right)
-            quickSort(i, right, arr);
+        int i = partition(start, end);
+        quicksort_sort(start, i);
+        quicksort_sort(i + 1, end);
     }
 
     //  ----------------------
@@ -126,33 +105,43 @@ private:
     //
     //
 
-    // Returns the pivot point's index
-
     uint32_t partition(uint32_t start, uint32_t end)
     {
+        uint32_t median = (start + end) / 2;
 
-        uint32_t arr[];
-        uint32_t pivot = arr[(start + end) / 2];
-        while (i <= j)
+        if (q[median] < q[start])
         {
-            while (arr[i] < pivot)
-                i++;
-            while (arr[j] > pivot)
-                j--;
-
-            if (i <= j)
-            {
-                tmp = arr[i];
-                arr[i] = arr[j];
-
-                arr[j] = tmp;
-                i++;
-                j--;
-            }
+            std::swap(q[start], q[median]);
+        }
+        if (q[end] < q[start])
+        {
+            std::swap(q[end], q[start]);
+        }
+        if (q[end] < q[median])
+        {
+            std::swap(q[median], q[end]);
         }
 
-        return pivot;
-    }
+        // Place the pivot at position end - 1
+        std::swap(q[median], q[end - 1]);
+        Comparable pivot = q[end - 1];
+        uint32_t i = start;
+        uint32_t j = end - 1;
+
+        while (true)
+        {
+            while (q[++i] < pivot)
+                ;
+            while (pivot < q[--j])
+                ;
+            if (i >= j)
+                break;
+            std::swap(q[i], q[j]);
+        }
+
+        std::swap(q[i], q[end - 1]); // Restore pivot
+        return i;
+    };
 };
 
 int main()
