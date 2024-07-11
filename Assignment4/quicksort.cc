@@ -64,7 +64,7 @@ private:
         std::cout << "List";
         for (uint32_t i = 0; i < next; ++i)
         {
-            std::cout << "\n"i << ": " << q[i];
+            std::cout << "\n"<<i << ": " << q[i];
         }
     }
 
