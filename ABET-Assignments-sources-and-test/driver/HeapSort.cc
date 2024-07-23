@@ -18,13 +18,11 @@ private:
     Node *left;
     Node *right;
     std::string data;
+    int left_count;
+    int right_count;
 
     Node(const std::string Data, Node *left = nullptr, Node *right = nullptr)
-    {
-      data = Data;
-      left = nullptr;
-      right = nullptr;
-    }
+        : data(Data), left(left), right(right), left_count(0), right_count(0) {}
 
     ~Node()
     {
@@ -32,76 +30,101 @@ private:
       delete right;
     }
 
-    void insert(const std::string &value)
+    void heapify(Node *root)
     {
-      if (value < data)
+      if (root == nullptr)
       {
-        if (left)
-        {
-          left->insert(value);
-          if (left->data > data)
-          {
-            std::swap(left->data, data);
-          }
-        }
-        else
-        {
-          left = new Node(value);
-        }
+        return;
+      }
+
+      Node *smallest = root;
+      if (root->left && root->left->data < smallest->data)
+      {
+        smallest = root->left;
+      }
+      if (root->right && root->right->data < smallest->data)
+      {
+        smallest = root->right;
+      }
+      if (smallest != root)
+      {
+        std::swap(root->data, smallest->data);
+        heapify(smallest);
+      }
+    }
+
+    Node *extractMin(Node *root)
+    {
+      if (root == nullptr)
+      {
+        return nullptr;
+      }
+
+      if (root->left == nullptr && root->right == nullptr)
+      {
+        delete root;
+        return nullptr;
+      }
+
+      Node *minChild;
+      if (root->left == nullptr)
+      {
+        minChild = root->right;
+      }
+
+      else if (root->right == nullptr)
+      {
+        minChild = root->left;
       }
       else
       {
-        if (right)
-        {
-          right->insert(value);
-          if (right->data > data)
-          {
-            std::swap(right->data, data);
-          }
-        }
-        else
-        {
-          right = new Node(value);
-        }
+        minChild = (root->left->data < root->right->data) ? root->left : root->right;
       }
+
+      root->data = minChild->data;
+      if (minChild == root->left)
+      {
+        root->left = extractMin(root->left);
+        root->left_count--;
+      }
+      else
+      {
+        root->right = extractMin(root->right);
+        root->right_count--;
+      }
+
+      heapify(root);
+      return root;
     }
 
-    void heapify()
+    Node *insert(const std::string &key, const std::string &value, Node *root)
     {
-      Node *largest = this;
-      if (left && left->data > largest->data)
+      if (root == nullptr)
       {
-        largest = left;
+        return new Node(value);
       }
-      if (right && right->data > largest->data)
+      if (root->left_count <= root->right_count)
       {
-        largest = right;
+        root->left = insert(key, value, root->left);
+        root->left_count++;
       }
-      if (largest != this)
+      else
       {
-        std::swap(data, largest->data);
-        largest->heapify();
+        root->right = insert(key, value, root->right);
+        root->right_count++;
       }
+
+      heapify(root);
+      return root;
     }
 
-    void heapSort()
+    void enumerate(std::ostream &output_file, Node *root)
     {
-      if (!left && !right)
-        return;
-      heapify();
-      if (left)
-        left->heapSort();
-      if (right)
-        right->heapSort();
-    }
-
-    void enumerate(std::ostream &output_file)
-    {
-      if (left)
-        left->enumerate(output_file);
-      output_file << data << "\n";
-      if (right)
-        right->enumerate(output_file);
+      while (root != nullptr)
+      {
+        output_file << root->data << std::endl;
+        root = extractMin(root);
+      }
     }
   };
 
@@ -110,22 +133,26 @@ private:
 public:
   void insert(const std::string &key, const std::string &value)
   {
-    if (root == nullptr)
-    {
-      root = new Node(value, nullptr, nullptr);
-    }
-    else
-      root->insert(value);
+    root = root->insert(key, value, root);
   }
+
   void enumerate(std::ostream &output_file)
   {
     if (root)
     {
-      root->heapSort();
-      root->enumerate(output_file);
+      root->enumerate(output_file, root);
     }
   }
 
+  Node *extractMin()
+  {
+    if (!root)
+      return nullptr;
+
+    Node *minNode = root;
+    root = root->extractMin(root);
+    return minNode;
+  }
   /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
   /* ----- YOUR CODE GOES IN BETWEEN THESE COMMENTS ----- */
   /* -----      DO NOT MODIFY BELOW THIS LINE       ----- */

@@ -11,83 +11,94 @@ class Sort::ImplSort
   /* -----      DO NOT MODIFY ABOVE THIS LINE       ----- */
   /* ----- YOUR CODE GOES IN BETWEEN THESE COMMENTS ----- */
   /* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
-
 private:
   struct Node
   {
-    Node *left;
-    Node *right;
+    bool has_data;
+    int count;
     std::string data;
+    Node *children[26];
 
-    Node(std::string Data, Node *left = nullptr, Node *right = nullptr)
-    {
-      data = Data;
-      left = nullptr;
-      right = nullptr;
-    }
+    Node()
+        : has_data(false), data(""), children{nullptr}, count(0) {}
 
     ~Node()
     {
-      delete left;
-      delete right;
-    }
-
-    void insert(const std::string &key, const std::string &value)
-    {
-      if (value < this->data)
+      for (int i = 0; i < 26; ++i)
       {
-        if (left)
-        {
-          left->insert(key, value);
-        }
-        else
-        {
-          left = new Node(std::move(value), nullptr, nullptr);
-        }
-      }
-      else
-      {
-        if (right)
-        {
-          right->insert(key, value);
-        }
-        else
-        {
-          right = new Node(std::move(value), nullptr, nullptr);
-        }
+        delete children[i];
       }
     }
 
-    void enumerate(std::ostream &output_file)
+    void insert(Node *node, const std::string &str, size_t index)
     {
-      if (left)
-        left->enumerate(output_file);
-      output_file << data << "\n";
-      if (right)
-        right->enumerate(output_file);
+      if (index == str.length() || str[index] == ' ')
+      {
+        node->has_data = true;
+        node->data = str;
+        node->count = node->count + 1;
+        return;
+      }
+
+      int child_index = str[index] - 'A';
+      if (child_index < 0 || child_index >= 26)
+      {
+        return;
+      }
+      if (node->children[child_index] == nullptr)
+      {
+        node->children[child_index] = new Node();
+      }
+
+      insert(children[child_index], str, index + 1);
+    }
+
+    void enumerate(std::ostream &output_file, std::string prefix = "")
+    {
+      if (has_data)
+      {
+        output_file << data << std::endl;
+      }
+
+      for (int i = 0; i < 26; ++i)
+      {
+        if (children[i] != nullptr)
+        {
+          char next_char = 'A' + i;
+          children[i]->enumerate(output_file, prefix + next_char);
+        }
+      }
     }
   };
-
-  Node *root = nullptr;
+  Node *root;
 
 public:
+  ImplSort()
+  {
+    root = new Node();
+  }
+
+  ~ImplSort()
+  {
+    delete root;
+  }
   void insert(const std::string &key, const std::string &value)
   {
-    if (root == nullptr)
-    {
-      root = new Node(value, nullptr, nullptr);
-    }
-    else
-      root->insert(key, value);
+    root->insert(root, key.substr(0, 10), 0);
   }
+
   void enumerate(std::ostream &output_file)
   {
-    root->enumerate(output_file);
+    if (root)
+    {
+      root->enumerate(output_file);
+    }
   }
-  /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
-  /* ----- YOUR CODE GOES IN BETWEEN THESE COMMENTS ----- */
-  /* -----      DO NOT MODIFY BELOW THIS LINE       ----- */
 };
+
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+/* ----- YOUR CODE GOES IN BETWEEN THESE COMMENTS ----- */
+/* -----      DO NOT MODIFY BELOW THIS LINE       ----- */
 
 Sort::Sort() : implSort_(new ImplSort) {}
 
