@@ -24,19 +24,16 @@ private:
 
     ~Node()
     {
-      for (int i = 0; i < 26; ++i)
-      {
-        delete children[i];
-      }
+      Destruct(0);
     }
 
-    void insert(Node *node, const std::string &str, size_t index)
+    void insert(const std::string &str, size_t index, const std::string &value)
     {
       if (index == str.length() || str[index] == ' ')
       {
-        node->has_data = true;
-        node->data = str;
-        node->count = node->count + 1;
+        has_data = true;
+        data = value;
+        count = count + 1;
         return;
       }
 
@@ -45,12 +42,12 @@ private:
       {
         return;
       }
-      if (node->children[child_index] == nullptr)
+      if (children[child_index] == nullptr)
       {
-        node->children[child_index] = new Node();
+        children[child_index] = new Node();
       }
 
-      insert(children[child_index], str, index + 1);
+      children[child_index]->insert(str, index + 1, value);
     }
 
     void enumerate(std::ostream &output_file, std::string prefix = "")
@@ -69,6 +66,16 @@ private:
         }
       }
     }
+
+    void Destruct(int index)
+    {
+      if (index >= 26)
+      {
+        return;
+      }
+      delete children[index];
+      Destruct(index + 1);
+    }
   };
   Node *root;
 
@@ -84,7 +91,11 @@ public:
   }
   void insert(const std::string &key, const std::string &value)
   {
-    root->insert(root, key.substr(0, 10), 0);
+    if (root == nullptr)
+    {
+      root = new Node();
+    }
+    root->insert(key.substr(0, 9), 0, value);
   }
 
   void enumerate(std::ostream &output_file)
